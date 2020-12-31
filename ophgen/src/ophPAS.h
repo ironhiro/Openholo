@@ -22,7 +22,33 @@ struct VoxelStruct;
 struct Segment;
 
 using namespace oph;
+/**
+* @addtogroup pas
+//@{
+* @details
 
+* @section Introduction
+
+Phase-added Stereogram based CGH calculation
+
+![](@ref pics/ophgen/pas/pas1.png)
+
+Result of the Phase-added Stereogram
+
+![](@ref pics/ophgen/pas/PAS_result.png)
+
+
+* @section Reference
+
+Masahiro Yamaguchi, Hideshi Hoshino, Toshio Honda, Nagaaki Ohyama, "Phase-added stereogram: calculation of hologram using computer graphics technique," Proc. SPIE 1914, Practical Holography VII: Imaging and Materials, (17 September 1993)
+
+*/
+//! @} pas
+/**
+* @ingroup PAS
+* @brief Openholo PAS based Compter-generated holography.
+* @author
+*/
 class GEN_DLL ophPAS : public ophGen
 {
 private:
@@ -30,19 +56,47 @@ private:
 	OphPointCloudData pc_data;
 	int n_points;
 public:
+	/**
+	* @brief Constructor
+	* @details Initialize variables.
+	*/
 	explicit ophPAS();
 protected:
+	/**
+	* @brief Destructor
+	*/
 	virtual ~ophPAS();
 
 public:
 	
 
-	
+	/**
+	* @brief read config files from xml
+	* @param[in] fname file name of the xml files
+	* @return Type: <B>bool</B>\n
+	*				If the function succeeds, the return value is <B>true</B>\n
+	*				If the function fails, the return value is <B>false</B>\n
+	*/
 	bool readConfig(const char* fname);
+	/**
+	* @brief override
+	* @{
+	* @brief Import Point Cloud Data Base File : *.ply file.
+	* This Function is included memory location of Input Point Clouds.
+	*/
+	/**
+	* @brief override
+	* @param[in] _filename PointCloud(*.ply) input file path
+	* @return number of Pointcloud (if it failed loading, it returned -1)
+	*/
 	int loadPoint(const char* _filename);
 	
 	//int saveAsImg(const char * fname, uint8_t bitsperpixel, void* src, int pic_width, int pic_height);	// 이미지 저장
 	int save(const char * fname, uint8_t bitsperpixel, uchar* src, uint px, uint py);
+	/**
+	* @brief save to image
+	* @param[in] fname file name of the image files to save
+	*/
 	void save(const char* fname);
 
 	
@@ -57,6 +111,10 @@ public:
 	void DataInit(OphPointCloudConfig& conf);
 	void MemoryRelease(void);
 
+	/**
+	* @brief Generate a hologram, main funtion.
+	* 
+	*/
 	void generateHologram();
 	
 	void CalcSpatialFrequency(float cx, float cy, float cz, float amp, int segnumx, int segnumy, int segsize, int hsegsize, float sf_base, float * xc, float * yc, float * sf_cx, float * sf_cy, int * pp_cx, int * pp_cy, int * cf_cx, int * cf_cy, float xiint, float etaint, OphPointCloudConfig& conf);
@@ -65,6 +123,11 @@ public:
 	
 	void RunFFTW(int segnumx, int segnumy, int segsize, int hsegsize, float **inRe, float **inIm, fftw_complex *in, fftw_complex *out, fftw_plan *plan, double *pHologram, OphPointCloudConfig& conf);
 
+	/**
+	* @brief encode Single-side band
+	* @param Vector band limit
+	* @param Vector specturm shift
+	*/
 	void encodeHologram(const vec2 band_limit, const vec2 spectrum_shift);
 	void encoding(unsigned int ENCODE_FLAG);
 	

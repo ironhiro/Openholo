@@ -11,11 +11,17 @@
 
 using namespace oph;
 
+
+
 const complex<double> I = sqrt(complex<double>(-1, 0));
 
 
 
-
+/**
+* @ingroup angularspectrum
+* @brief Openholo Angular Spectrum based Compter-generated holography.
+* @author
+*/
 class GEN_DLL ophAS : public ophGen 
 {
 private:
@@ -41,6 +47,14 @@ public:
 	virtual ~ophAS();
 	bool readConfig(const char* fname);
 	int loadPoint(const char* fname);
+	/**
+	* @brief get the value of a variable is_CPU(true or false)
+	* @details <pre>
+	if is_CPU == true
+	CPU implementation
+	else
+	GPU implementation </pre>
+	*/
 	void setmode(bool is_cpu);
 	void ASCalculation(double w, double h, double wavelength, double knumber, double
 		xi_interval, double eta_interval, double depth, coder::
